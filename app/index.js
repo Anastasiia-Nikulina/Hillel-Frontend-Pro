@@ -64,7 +64,7 @@ const dayOfBirth = STDIN.number('Enter your birth day', STDIN.validateBirthDay, 
 const spans = document.getElementsByTagName("span");
 const userAge = getFullAge(yearOfBirth, monthOfBirth, dayOfBirth);
 for (let elem of spans) {
-	if (elem.parentNode.nodeName === "LI") {
+	if (elem.closest(".user-list")) {
 		switch (elem.innerHTML) {
 			case "firstName":
 				elem.innerHTML = firstName;
@@ -79,25 +79,31 @@ for (let elem of spans) {
 	}
 }
 
-const tagList = document.getElementsByClassName('tag-list')[0];
-let arr = [];
 const body = document.body;
 function forChildren(root) {
-
+	let arr = [];
 	for (let children of root.children) {
-		let createEl = document.createElement("LI");
-		createEl.innerHTML = children.nodeName;
-		arr.push(createEl);
-		forChildren(children);
+		arr.push(children.tagName);
+		arr = arr.concat(forChildren(children));
 	}
+	return arr;
 }
 
-forChildren(body);
 
-for (let a of arr) {
-	tagList.appendChild(a);
+
+const names = forChildren(body);
+console.log(names)
+const tagList = document.querySelector('.tag-list');
+
+const occurrences = names.reduce((acc, curr) =>
+	(acc[curr] ? ++acc[curr] : acc[curr] = 1, acc)
+	, {});
+
+for (const [key, value] of Object.entries(occurrences)) {
+	let el = (`${key}: ${value}`);
+	let createEl = document.createElement("LI");
+	createEl.innerHTML = el;
+	tagList.appendChild(createEl);
+
 }
 
-const numOfElements = body.getElementsByTagName('*').length
-
-document.write(`Total amount of tags on the page is ${numOfElements} pcs`);
