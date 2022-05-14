@@ -1,0 +1,84 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-image: url(img/background.png);
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: 'Fredoka One', Arial, sans-serif;
+  color: #03405c;
+}
+
+button {
+  background: linear-gradient(82.81deg, #29a7e1 30.15%, #3acdc6 106.3%);
+  border-radius: 20px;
+  border: none;
+  padding: 10px 20px;
+  margin: 0 5px;
+  font-family: 'Fredoka One', Arial, sans-serif;
+  font-size: 20px;
+  cursor: pointer;  
+  color: #03405c;
+}
+
+h1 {
+  padding-top: 100px;
+  margin: 0 auto;
+  text-transform: uppercase;
+}
+
+.btnWrap {
+  font-size: 25px;
+  margin-left: 30%;
+
+}
+.headline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+.table {
+  display: inline-block;
+  vertical-align: top;
+  border-left: 0.5px solid grey;
+  border-top: 0.5px solid grey;
+  font-size: 30px;
+  margin-left: 40%;
+  background-image: url(/app/img/anime-chibi.gif);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin-top: 30px;
+  
+}
+
+.table__row {
+  display: flex;
+}
+
+.table__cell {
+  caret-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border: 1px solid grey;
+  cursor: pointer;
+
+}
+.restart-btn {
+  display: flex;
+  justify-content: center;
+}
+
+.info-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #03405c;
+}
