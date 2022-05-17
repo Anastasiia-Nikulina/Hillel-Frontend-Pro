@@ -5,7 +5,6 @@ const email = requester.email;
 const confirmPas = requester.confirm;
 const consent = requester.consent;
 
-
 const autofocus = (element) => {
   if (element instanceof HTMLElement) {
     element.focus();
@@ -15,25 +14,21 @@ const autofocus = (element) => {
 autofocus(email);
 
 requester.addEventListener("submit", (event) => {
-  const result = document.querySelector(".result");
   event.preventDefault();
-  /*   window.history.back(); */
+  const result = document.querySelector(".result");
 
   if (checkError()) {
-
-    console.log("Error");
-
+    console.log("error");
+  } else {
+    const form = new FormData(event.target);
+    let arrayres = []
+    Array.from(form.keys())
+      .filter(key => form.get(key))
+      .forEach(key =>
+        arrayres = arrayres.concat(` ${key}: ${form.get(key)}; `));
+    result.textContent = `${arrayres[0]} ${arrayres[1]}`
   }
-
-  const form = new FormData(event.target);
-  const resultObj = {};
-  Array.from(form.keys())
-    .filter(key => form.get(key) != "").forEach(key =>
-      result.innerHTML = result.innerHTML.concat(` ${key}: ${form.get(key)}; `))
-   ;
 });
-
-
 
 validatePassword = (password, confirm) => {
   let hasErrors = false;
@@ -105,38 +100,3 @@ const createErrorField = (input, text) => {
   error.classList.add("error");
   error.innerHTML = text;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
