@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forms</title>
+
+  <link rel="stylesheet" href="./app/styles.css">
+
+  <script defer src="./app/index.js"></script>
+</head>
+
+<body>
+  <form class="requester" name="requester" novalidate >
+    <label class="label-field" for="email">
+      <span>Email:</span>
+      <input class="input-field" id="email" name="email" type="email">
+      <span role="alert" hidden></span>
+    </label>
+
+    <label class="label-field" for="pass">Password:
+      <input class="input-field" name="password" type="password" id="pass" minlength="9" maxlength="24"
+        pattern="[0-9a-fA-F]{4,8}" placeholder="(9-24 characters)">
+        <span role="alert" hidden></span>
+    </label>
+
+    <label class="label-field" for="pass"> Confirm:
+      <input class="input-field" name="confirm" type="password">
+      <span role="alert" hidden></span>
+    </label>
+    
+    <label class="label-field" for="consent">
+      <span>Consent</span>
+      <input id="consent" type="checkbox" name="consent">
+      <span role="alert" hidden></span>
+    </label>
+
+    <footer>
+      <button class="submit-btn" name="submitter" type="submit">Send a form</button>
+    </footer>
+  </form>
+  <output>
+    <div class="result"></div>
+  </output>
+</body>
+
+</html>
