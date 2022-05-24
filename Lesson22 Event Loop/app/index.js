@@ -1,16 +1,14 @@
-const alarm = document.forms.alarm;
-const alarmMessage = document.createElement("span");
-const reminderMessage = document.createElement("span");
 const notification = document.querySelector(".notification");
+const alarm = document.forms.alarm;
+const resetButton = document.querySelector(".clear-alarm");
+
+let hours = document.querySelector(".hours");
+let minutes = document.querySelector(".minutes");
+let seconds = document.querySelector(".seconds");
 
 
 const updateTime = () => setInterval(() => {
   const now = new Date();
-
-  let hours = document.querySelector(".hours");
-  let minutes = document.querySelector(".minutes");
-  let seconds = document.querySelector(".seconds");
-
 
   hours.textContent = now.getHours() < 10 ? "0" + now.getHours() : now.getHours();
   minutes.textContent = now.getMinutes() < 10 ? "0" + now.getMinutes() : now.getMinutes();
@@ -20,70 +18,83 @@ const updateTime = () => setInterval(() => {
 
 updateTime();
 
-
 class Alarm {
+  form;
+  reminderMessage;
+  alarmMessage;
+  resetButton;
   timeIds = [];
+  alarmInputs = [];
+  notification;
+
+  constructor(form, messageText, notification, resetButton) {
+    this.form = form;
+    this.messageText = messageText;
+    this.notification = notification;
+    this.resetButton = resetButton;
+    this.alarmMessage = document.createElement("span");
+    this.reminderMessage = document.createElement("span");
+
+    this.form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const inputs = this.form.elements;
+
+      for (let i = 0; i < inputs.length; i++) {
+        if (inputs[i].nodeName === "INPUT" && inputs[i].type === "number") {
+          this.alarmInputs.push(inputs[i].value);
+        }
+      }
+
+      this.setAlarm(this.alarmInputs);
+
+    });
+
+    this.resetButton.addEventListener("click", (event) => {
+      this.clear();
+    });
+  }
 
   setAlarm = ((alarmInputs) => {
     const alarmTime = new Date();
-    alarmTime.setHours(alarmInputs[0]);
-    alarmTime.setMinutes(alarmInputs[1]);
-    alarmTime.setSeconds(alarmInputs[2]);
+    alarmTime.setSeconds(alarmInputs.pop());
+    alarmTime.setMinutes(alarmInputs.pop());
+    alarmTime.setHours(alarmInputs.pop());
 
-    alarmMessage.innerHTML = "Alarm is activated";
-    alarmMessage.classList.add("alarm-message")
-    alarm.appendChild(alarmMessage);
+    this.alarmMessage.innerHTML = this.messageText;
+    this.alarmMessage.classList.add("alarm-message")
+    this.form.appendChild(this.alarmMessage);
 
     let timeId = setTimeout(() => {
-      {
-        notification.hidden = false;
+      this.notification.hidden = false;
 
-        if (alarm.reminder.checked) {
-          reminderMessage.innerHTML = "The alarm will be repeated in 24H";
-          alarm.appendChild(reminderMessage);
-          this.setReminder(3000);
-        }
+      if (this.form.reminder.checked) {
+        this.reminderMessage.innerHTML = "The alarm will be repeated in 24H";
+        this.reminderMessage.classList.add("reminder-message");
+        this.form.appendChild(this.reminderMessage);
+        this.setReminder(24*60*60*1000); //здесь изменяла время, чтобы проверить повтор сигнала
       }
+      setTimeout(() => this.notification.hidden = true, 5000);
     }, alarmTime - new Date());
     this.timeIds.push(timeId);
-  })
+  });
 
   setReminder = (interval) => {
 
     let timeId = setInterval(() => {
-
-      this.timeIds.push(timeId);
+      this.notification.hidden = false
+      setTimeout(() => this.notification.hidden = true, 5000);
     }, interval)
+    this.timeIds.push(timeId);
   }
 
   clear = () => {
     while (this.timeIds.length != 0) {
       clearTimeout(this.timeIds.pop());
     }
-    alarmMessage.innerHTML = "";
-    notification.hidden = true;
+    this.alarmMessage.innerHTML = "";
+    this.notification.hidden = true;
+    this.reminderMessage.innerHTML = "";
   }
 }
 
-const alarmObj = new Alarm();
-
-const alarmInputs = [];
-
-alarm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const inputs = alarm.elements;
-
-  for (i = 0; i < inputs.length; i++) {
-    if (inputs[i].nodeName === "INPUT" && inputs[i].type === "number") {
-      alarmInputs.push(inputs[i].value);
-    }
-  }
-
-  alarmObj.setAlarm(alarmInputs);
-
-});
-
-const resetButton = document.querySelector(".clear-alarm");
-resetButton.addEventListener("click", (event) => {
-  alarmObj.clear();
-});
+const alarmObj = new Alarm(alarm, "The alarm is set", notification, resetButton);
