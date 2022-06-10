@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./app/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&display=swap" rel="stylesheet">
+    <script type="module" defer src="./app/index.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <form class="auth fade-out" name="auth">
+        <label class="label-field" for="email">
+            <span>Email:</span>
+            <input class="input-field" id="email" name="email" type="email" placeholder="Enter email">
+        </label>
+
+        <label class="label-field" for="pass">Password:
+            <input class="input-field" name="password" type="text" id="pass" minlength="3" maxlength="20"
+                placeholder="Enter password">
+        </label>
+
+        <label class="label-field" for="consent">
+            <span>Remember me</span>
+            <input id="consent" type="checkbox" name="consent">
+        </label>
+
+        <footer>
+            <button class="submit-btn btn" name="submitter" type="submit">Log in</button>
+        </footer>
+    </form>
+
+    <section class="user-notes" hidden="true">
+        <h1 class="title">Welcome to your personal notes</h1>
+
+        <div class="menu-group">
+            <h2 class="title subtitle">Menu</h2>
+            <button type="button" class="create-btn btn">Create new note</button>
+            <button type="button" class="delete-btn btn">Delete note</button>
+            <button type="button" class="deleteAll-btn btn">Delete all notes</button>
+            <button type="button" class="logout-btn btn">Log out</button>
+        </div>
+        <div class="wrapper">
+            <form class="note-form" name="note-form" hidden="true">
+                <textarea name="textarea" type="textarea" rows="5" cols="30"></textarea>
+                <button class="add-note-btn btn" type="submit">Add +</button>
+            </form>
+
+            <ul class="note-form-list"></ul>
+        </div>
+    </section>
+</body>
+</html>
