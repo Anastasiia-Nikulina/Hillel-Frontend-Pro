@@ -29,12 +29,14 @@ const getCookie = (name) => {
 
 const usersTable = {
     "example@example.com": {
+        userId: "1",
         firstName: "John",
         lastName: "Doe",
         email: "example@example.com",
         password: /* "super_secret" */ "111"
     },
     "demo@demo.com": {
+        userId: "2",
         firstName: "Demo",
         lastName: "User",
         email: "demo@demo.com",

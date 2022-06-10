@@ -1,30 +1,25 @@
+import { FetchHelper } from "./fetch-helper.js";
 export class Store {
 
-    getState(id) {
-        const store = localStorage.getItem(id);
-
-        if (!store) {
-            const initStore = [];
-            localStorage.setItem(id, JSON.stringify(initStore))
-            return initStore;
-        }
-        return JSON.parse(store);
+    constructor(){
+        this.fetchHelper = new FetchHelper("https://jsonplaceholder.typicode.com");
     }
 
-    setState(id, value) {
-        const state = this.getState(id);
-        state.push(value);
-        localStorage.setItem(id, JSON.stringify(state));
+    getState(id) {
+        const store = this.fetchHelper.getAllTodosOfUser(id);
 
+        return store;
+    }
+
+    setState(id, value) {      
+        return this.fetchHelper.setTodoById(id, value);
     }
 
     deleteState(id, index) {
-        const state = this.getState(id);
-        state.splice(index - 1, 1);
-        localStorage.setItem(id, JSON.stringify(state));
+        return this.fetchHelper.deleteByTodoId(id, index);
     }
 
     deleteAllStates(id) {
-        localStorage.removeItem(id);
+        return this.fetchHelper.deleteAllById(id);
     }
 }
