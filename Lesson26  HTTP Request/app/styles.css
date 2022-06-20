@@ -36,7 +36,7 @@ body {
 	animation-duration: 2s;
 }
 
-@keyframes fadeInOpacity {
+@keyframes fadeOutOpacity {
 	0% {
 		opacity: 0;
 	}
@@ -156,4 +156,31 @@ textarea {
 
 .subtitle {
     font-size: 25px;
+}
+
+.loader-el {
+    margin: 30px auto;
+    width: 300px;
+    padding: 20px 50px;
+    font-size: 30px;
+    font-weight: 700;
+    color: #eea25f;
+    text-align: center;
+    caret-color: transparent;
+    background:  rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    opacity: 1;
+	animation-name: fadeOutOpacity;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+	animation-duration: 2s;    
+}
+
+@keyframes fadeInOpacity {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
 }
