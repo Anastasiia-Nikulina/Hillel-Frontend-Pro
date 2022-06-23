@@ -4,7 +4,7 @@ import { Logger } from "../../ports/logger";
 import { CreateAppointmentCommand } from "../../commands/CreateAppointmentCommand";
 import { GetAppointmentCommand } from "../../commands/GetAppointmentCommand";
 import { CompleteAppointmentCommand } from "../../commands/CompleteAppointmentCommand";
-import { AppointmentRepository } from "../../ports/repositories/appointment";
+import { AppointmentRepository, FindManyFilter } from "../../ports/repositories/appointment";
 import { DeleteAppointmentCommand } from "../../commands/DeleteAppointmentCommand";
 import { ListAppointmentCommand } from "../../commands/ListAppointmentCommand";
 import { ClearAppointmentCommand } from "../../commands/ClearAppointmentsCommand";
@@ -19,8 +19,7 @@ export class AppointmentController {
 	async process() {
 		const command = this.nodeCli.getCommand();
 		const { id } = this.nodeCli.getQuery();
-
-
+	
 		switch (command) {
 			case CLICommand.CREATE:
 
@@ -52,7 +51,7 @@ export class AppointmentController {
 
 				const completeRecord = Appointment.toRecord(completeAppointment);
 
-				this.nodeCliOutput.print(`[${completeRecord.id}] has been completed [${completeRecord.completed}] `);
+				this.nodeCliOutput.print(`[${completeRecord.id}] has been completed`);
 
 				break;
 
@@ -68,15 +67,14 @@ export class AppointmentController {
 				break;
 
 			case CLICommand.LIST:
-				const { status, limit } = this.nodeCli.getQuery();
+				const filter = this.nodeCli.getQuery<FindManyFilter>();
+				
+				const listAppointments = await new ListAppointmentCommand(this.appointmentRepository).execute(filter);
 
-				const listAppointments = await new ListAppointmentCommand(this.appointmentRepository).execute({
-					completed: Boolean(status), limit: Number(limit)
-				});
-
-				listAppointments.forEach(row => this.nodeCliOutput.print(`[${Appointment.toRecord(row).id}] has been read `));
+				listAppointments.forEach(row => this.nodeCliOutput.print(`[${Appointment.toRecord(row).id}] has been read`));
 
 				break;
+
 
 			case CLICommand.CLEAR:
 				const clearAppointment = await new ClearAppointmentCommand(this.appointmentRepository).execute({});

@@ -4,7 +4,6 @@ import { Appointment } from "../../domain/appointment";
 import { NotFoundError } from "../../domain/error";
 import { AppointmentRepository, FindManyFilter } from "../../ports/repositories/appointment";
 import { File } from "../../ports/file";
-
 export class FileSystemAppointmentRepository implements AppointmentRepository {
 	constructor(private readonly file: File<Appointment>) {
 		
@@ -26,11 +25,11 @@ export class FileSystemAppointmentRepository implements AppointmentRepository {
 		return record;
 	}
 
-	async findMany({ completed, limit }: FindManyFilter): Promise<Appointment[]> {
+	async findMany({ status, limit }: FindManyFilter): Promise<Appointment[]> {
 		let records = Object.values(await this.file.getState());
-	
-		if (!isUndefined(completed)) {
-			records = records.filter(record => record.record.completed === completed);
+		
+		if (!isUndefined(status)) {
+			records = records.filter(record => record.record.completed === status);
 		}
 
 		if (!isUndefined(limit) && isFinite(limit)) {
@@ -64,5 +63,9 @@ export class FileSystemAppointmentRepository implements AppointmentRepository {
 		}
 
 		this.file.setState(nextState);
+	}
+
+	async removeAll(){
+		this.file.setState({});				
 	}
 }

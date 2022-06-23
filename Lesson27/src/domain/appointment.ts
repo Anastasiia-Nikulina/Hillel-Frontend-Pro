@@ -14,7 +14,7 @@ export class Appointment {
 		this.record = record;		
 	}
 
-	public get id() {
+	get id() {
 		return this.record.id;
 	}
 
@@ -46,14 +46,6 @@ export class Appointment {
 			completed: false,
 			created_at: now.toISOString(),
 		});
-	}
-
-	set completed(flag: boolean) {
-		this.record.completed = flag;
-	}
-
-	set updated_at(date) {
-		this.record.updated_at = date;
 	}
 
 	private static generateId(now: Date): string {

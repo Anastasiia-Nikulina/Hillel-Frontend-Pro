@@ -1,7 +1,7 @@
 import { Appointment, AppointmentId } from "../../domain/appointment";
 
 export type FindManyFilter = {
-	completed?: boolean;
+	status?: boolean;
 	limit?: number;
 }
 
@@ -11,4 +11,5 @@ export interface AppointmentRepository {
 	findMany(filter: FindManyFilter): Promise<Appointment[]>;
 	update(appointment: Appointment): Promise<Appointment>;
 	remove(id: AppointmentId): Promise<void>;
+	removeAll(): Promise<void>;
 }

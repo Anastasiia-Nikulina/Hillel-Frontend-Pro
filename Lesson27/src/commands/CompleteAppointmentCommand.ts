@@ -22,12 +22,10 @@ export class CompleteAppointmentCommand {
 		}
 
         const appointmentModel = Appointment.toModel(appointment);
-        appointmentModel.completed = true;
-        const updatedDate = new Date();
-        appointmentModel.updated_at = updatedDate.toISOString();
-        const updatedAppointment = await this.appointmentRepository.update(appointmentModel);
+		appointmentModel.update({ completed: true});
+		appointmentModel.update( { updated_at: new Date().toISOString()});
 
-		return updatedAppointment;
+		return await this.appointmentRepository.save(appointmentModel);
 
 	}
 }

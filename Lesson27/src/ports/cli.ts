@@ -9,5 +9,5 @@ export enum CLICommand {
 
 export interface CLI {
 	getCommand(): string;
-	getQuery(): Record<string, string>;
+	getQuery<T>(): T;
 }

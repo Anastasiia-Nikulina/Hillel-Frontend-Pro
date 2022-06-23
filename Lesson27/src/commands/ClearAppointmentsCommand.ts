@@ -12,7 +12,7 @@ export class ClearAppointmentCommand {
         if (!appointments) {
             throw new NotFoundError();
         }
-        appointments.forEach(element => this.appointmentRepository.remove(Appointment.toModel(element).id));
+        await this.appointmentRepository.removeAll();
 
         return appointments;
 
