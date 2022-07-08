@@ -1,0 +1,14 @@
+:root {
+	box-sizing: border-box;
+}
+
+*, *::before, *::after {
+	box-sizing: inherit;
+}
+
+a {
+	text-decoration: none;
+    color: black;
+    font-family: "Times New Roman", serif;
+}
+
